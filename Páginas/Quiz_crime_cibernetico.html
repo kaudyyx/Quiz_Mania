@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Cyber Segurança</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #0f0c29;
+            background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            color: #e0e0e0;
+        }
+        
+        .quiz-container {
+            max-width: 600px;
+            margin: 30px auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+        
+        .quiz-header {
+            background: linear-gradient(to right, #1a237e, #283593);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+            border-bottom: 2px solid #00bcd4;
+        }
+        
+        .quiz-header h1 {
+            margin: 0;
+            font-size: 28px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            letter-spacing: 1px;
+        }
+        
+        .quiz-header p {
+            margin: 10px 0 0;
+            opacity: 0.9;
+            font-size: 16px;
+        }
+        
+        .quiz-body {
+            padding: 25px;
+        }
+        
+        .question {
+            font-size: 20px;
+            margin-bottom: 25px;
+            font-weight: 600;
+            color: #ffffff;
+            line-height: 1.4;
+        }
+        
+        .options {
+            margin-bottom: 25px;
+        }
+        
+        .option {
+            display: block;
+            width: 100%;
+            padding: 12px 20px;
+            margin-bottom: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            text-align: left;
+            color: #e0e0e0;
+        }
+        
+        .option:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .timer-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 50px;
+            padding: 8px 15px;
+            display: inline-flex;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .timer {
+            font-weight: 700;
+            font-size: 18px;
+            color: #00bcd4;
+            margin-left: 5px;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 25px;
+        }
+        
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        #next-btn {
+            background: linear-gradient(to right, #1a237e, #283593);
+            color: white;
+            display: none;
+        }
+        
+        #next-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+        
+        #start-btn {
+            background: linear-gradient(to right, #00bcd4, #008ba3);
+            color: white;
+            margin: 25px auto;
+            display: block;
+            font-size: 18px;
+            padding: 15px 30px;
+            border: none;
+        }
+        
+        #start-btn:hover {
+            transform: scale(1.05);
+            background: linear-gradient(to right, #00bcd4, #006978);
+        }
+        
+        .result-screen {
+            text-align: center;
+            padding: 30px;
+            display: none;
+        }
+        
+        .diamonds {
+            color: #00bcd4;
+            font-weight: 700;
+            font-size: 24px;
+            text-shadow: 0 0 10px rgba(0, 188, 212, 0.5);
+        }
+        
+        .correct {
+            background: rgba(76, 175, 80, 0.2) !important;
+            border-color: #4CAF50 !important;
+            color: #a5d6a7;
+        }
+        
+        .incorrect {
+            background: rgba(244, 67, 54, 0.2) !important;
+            border-color: #f44336 !important;
+            color: #ffab91;
+        }
+        
+        .feedback {
+            margin-top: 15px;
+            font-weight: 600;
+            padding: 10px;
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .progress-container {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            height: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, #00bcd4, #008ba3);
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .result-icon {
+            font-size: 80px;
+            margin: 20px 0;
+            color: #00bcd4;
+            text-shadow: 0 0 20px rgba(0, 188, 212, 0.7);
+        }
+        
+        #restart-btn {
+            background: linear-gradient(to right, #1a237e, #283593);
+            color: white;
+            margin-top: 20px;
+        }
+        
+        #restart-btn:hover {
+            background: linear-gradient(to right, #283593, #3949ab);
+        }
+        
+        .diamond-icon {
+            color: #00bcd4;
+            margin-right: 5px;
+            text-shadow: 0 0 8px rgba(0, 188, 212, 0.5);
+        }
+        
+        .time-warning {
+            animation: pulse 0.5s infinite;
+            color: #ff5252 !important;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="quiz-container">
+        <div class="quiz-header">
+            <h1><i class="fas fa-shield-alt"></i> QUIZ CYBER SEGURANÇA</h1>
+            <p>Teste seus conhecimentos e ganhe diamantes!</p>
+        </div>
+        
+        <div id="start-screen" class="quiz-body">
+            <img src="https://cdn-icons-png.flaticon.com/512/3064/3064155.png" width="150" style="display: block; margin: 0 auto 20px; filter: drop-shadow(0 0 10px rgba(0, 188, 212, 0.7));">
+            <p style="text-align: center; font-size: 16px; line-height: 1.6; color: #b0bec5;">Proteja-se no mundo digital testando seus conhecimentos sobre segurança cibernética!</p>
+            
+            <div style="background: rgba(0, 0, 0, 0.3); border-radius: 10px; padding: 15px; margin: 20px 0; border: 1px solid rgba(0, 188, 212, 0.3);">
+                <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                    <i class="fas fa-clock" style="color: #00bcd4; font-size: 20px; margin-right: 10px;"></i>
+                    <span style="font-weight: 600; color: #e0e0e0;">30 segundos por pergunta</span>
+                </div>
+                <div style="display: flex; align-items: center;">
+                    <i class="fas fa-gem diamond-icon" style="font-size: 20px; margin-right: 10px;"></i>
+                    <span style="font-weight: 600; color: #e0e0e0;">5 diamantes por resposta correta</span>
+                </div>
+            </div>
+            
+            <button id="start-btn"><i class="fas fa-lock-open"></i> INICIAR DESAFIO</button>
+        </div>
+        
+        <div id="quiz-screen" class="quiz-body" style="display: none;">
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+            
+            <div class="timer-container">
+                <i class="fas fa-stopwatch" style="color: #00bcd4;"></i>
+                <div class="timer" id="timer">30s</div>
+            </div>
+            
+            <div class="question" id="question"></div>
+            <div class="options" id="options"></div>
+            <div class="feedback" id="feedback"></div>
+            
+            <div class="controls">
+                <button id="next-btn"><i class="fas fa-arrow-right"></i> PRÓXIMA PERGUNTA</button>
+            </div>
+        </div>
+        
+        <div id="result-screen" class="result-screen" style="display: none;">
+            <i class="fas fa-trophy result-icon"></i>
+            <h2 style="color: #ffffff; margin-bottom: 10px; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">DESAFIO CONCLUÍDO!</h2>
+            
+            <div style="background: rgba(0, 0, 0, 0.3); border-radius: 10px; padding: 20px; margin: 20px 0; border: 1px solid rgba(0, 188, 212, 0.3);">
+                <p style="font-size: 18px; margin: 10px 0; color: #e0e0e0;">Você acertou <strong id="correct-answers" style="font-size: 24px; color: #00bcd4;">0</strong> de <strong style="color: #00bcd4;">7</strong> perguntas!</p>
+                <p style="font-size: 18px; color: #e0e0e0;">Seu prêmio: <i class="fas fa-gem diamond-icon"></i><span class="diamonds" id="diamonds-earned">0</span> diamantes!</p>
+            </div>
+            
+            <p id="result-message" style="font-size: 16px; margin: 20px 0; color: #b0bec5;"></p>
+            
+            <button id="restart-btn"><i class="fas fa-redo"></i> JOGAR NOVAMENTE</button>
+        </div>
+    </div>
+
+    <script>
+        // Dados do quiz
+        const quizData = [
+            {
+                question: "O que é phishing?",
+                options: [
+                    "Um tipo de pescaria esportiva",
+                    "Um ataque para roubar informações pessoais",
+                    "Um vírus que formata o disco rígido",
+                    "Um programa de edição de fotos"
+                ],
+                correct: 1,
+                difficulty: "Fácil"
+            },
+            {
+                question: "Qual destas senhas é mais segura?",
+                options: [
+                    "123456",
+                    "senha123",
+                    "P@ssw0rd!2023",
+                    "nome123"
+                ],
+                correct: 2,
+                difficulty: "Fácil"
+            },
+            {
+                question: "O que significa VPN?",
+                options: [
+                    "Virtual Private Network",
+                    "Very Protected Network",
+                    "Video Phone Network",
+                    "Virtual Public Network"
+                ],
+                correct: 0,
+                difficulty: "Médio"
+            },
+            {
+                question: "O que fazer se receber um e-mail suspeito?",
+                options: [
+                    "Abrir o anexo para ver o que é",
+                    "Responder perguntando quem é o remetente",
+                    "Clicar nos links para ver a página",
+                    "Não abrir e marcar como spam"
+                ],
+                correct: 3,
+                difficulty: "Médio"
+            },
+            {
+                question: "O que é autenticação de dois fatores?",
+                options: [
+                    "Usar duas senhas diferentes",
+                    "Confirmar identidade com dois métodos",
+                    "Ter duas contas de e-mail",
+                    "Usar senha e nome de usuário"
+                ],
+                correct: 1,
+                difficulty: "Difícil"
+            },
+            {
+                question: "Para que serve um firewall?",
+                options: [
+                    "Aumentar a velocidade da internet",
+                    "Proteger contra acessos não autorizados",
+                    "Melhorar o desempenho do computador",
+                    "Armazenar arquivos na nuvem"
+                ],
+                correct: 1,
+                difficulty: "Difícil"
+            },
+            {
+                question: "O que é um ataque DDoS?",
+                options: [
+                    "Um vírus que infecta arquivos",
+                    "Ataque que sobrecarrega um servidor",
+                    "Furto de identidade online",
+                    "Um tipo de phishing"
+                ],
+                correct: 1,
+                difficulty: "Difícil"
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let timeLeft = 30;
+        let timer;
+        let answered = false;
+
+       
+        const startScreen = document.getElementById('start-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultScreen = document.getElementById('result-screen');
+        const questionElement = document.getElementById('question');
+        const optionsElement = document.getElementById('options');
+        const feedbackElement = document.getElementById('feedback');
+        const nextButton = document.getElementById('next-btn');
+        const startButton = document.getElementById('start-btn');
+        const restartButton = document.getElementById('restart-btn');
+        const timerElement = document.getElementById('timer');
+        const progressBar = document.getElementById('progress-bar');
+        const correctAnswersElement = document.getElementById('correct-answers');
+        const diamondsEarnedElement = document.getElementById('diamonds-earned');
+        const resultMessageElement = document.getElementById('result-message');
+
+        document.addEventListener('DOMContentLoaded', function() {
+            startButton.addEventListener('click', startQuiz);
+            nextButton.addEventListener('click', nextQuestion);
+            restartButton.addEventListener('click', restartQuiz);
+        });
+
+        function startQuiz() {
+            startScreen.style.display = 'none';
+            quizScreen.style.display = 'block';
+            currentQuestion = 0;
+            score = 0;
+            showQuestion();
+        }
+
+        function showQuestion() {
+            resetTimer();
+            answered = false;
+            nextButton.style.display = 'none';
+            feedbackElement.textContent = '';
+            feedbackElement.style.backgroundColor = 'transparent';
+            
+            const question = quizData[currentQuestion];
+            questionElement.textContent = question.question;
+
+            progressBar.style.width = `${(currentQuestion / quizData.length) * 100}%`;
+            
+            optionsElement.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'option';
+                button.textContent = option;
+                button.addEventListener('click', () => selectAnswer(index));
+                optionsElement.appendChild(button);
+            });
+
+            startTimer();
+        }
+
+        
+        function selectAnswer(selectedIndex) {
+            if (answered) return;
+            
+            answered = true;
+            clearInterval(timer);
+            
+            const question = quizData[currentQuestion];
+            const options = optionsElement.querySelectorAll('.option');
+           
+            options.forEach(option => {
+                option.disabled = true;
+            });
+            
+            if (selectedIndex === question.correct) {
+                options[selectedIndex].classList.add('correct');
+                feedbackElement.textContent = '✅ Correto! +5 diamantes';
+                feedbackElement.style.backgroundColor = 'rgba(76, 175, 80, 0.2)';
+                score++;
+            } else {
+                options[selectedIndex].classList.add('incorrect');
+                options[question.correct].classList.add('correct');
+                feedbackElement.textContent = '❌ Errado! A resposta correta está marcada';
+                feedbackElement.style.backgroundColor = 'rgba(244, 67, 54, 0.2)';
+            }
+            
+            nextButton.style.display = 'block';
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < quizData.length - 1) {
+                currentQuestion++;
+                showQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            quizScreen.style.display = 'none';
+            resultScreen.style.display = 'block';
+            
+            const diamondsEarned = score * 5;
+            
+            correctAnswersElement.textContent = score;
+            diamondsEarnedElement.textContent = diamondsEarned;
+
+            if (score === quizData.length) {
+                resultMessageElement.textContent = "Incrível! Você é um expert em segurança digital! 🎉";
+                resultMessageElement.style.color = "#4CAF50";
+            } else if (score >= quizData.length / 2) {
+                resultMessageElement.textContent = "Bom trabalho! Você sabe bastante sobre o assunto. 👍";
+                resultMessageElement.style.color = "#00bcd4";
+            } else {
+                resultMessageElement.textContent = "Continue aprendendo! Segurança digital é importante. 💡";
+                resultMessageElement.style.color = "#FF9800";
+            }
+        }
+        function restartQuiz() {
+            resultScreen.style.display = 'none';
+            startScreen.style.display = 'block';
+        }
+
+        function startTimer() {
+            timeLeft = 30;
+            updateTimer();
+            
+            timer = setInterval(() => {
+                timeLeft--;
+                updateTimer();
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    if (!answered) {
+                        timeUp();
+                    }
+                }
+            }, 1000);
+        }
+
+        function updateTimer() {
+            timerElement.textContent = `${timeLeft}s`;
+            
+            if (timeLeft <= 10) {
+                timerElement.classList.add('time-warning');
+            } else {
+                timerElement.classList.remove('time-warning');
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            timerElement.classList.remove('time-warning');
+        }
+
+        function timeUp() {
+            answered = true;
+            const question = quizData[currentQuestion];
+            const options = optionsElement.querySelectorAll('.option');
+            
+            options[question.correct].classList.add('correct');
+            
+            feedbackElement.textContent = '⏰ Tempo esgotado! A resposta correta está marcada.';
+            feedbackElement.style.backgroundColor = 'rgba(255, 193, 7, 0.2)';
+            
+            options.forEach(option => {
+                option.disabled = true;
+            });
+            
+            nextButton.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

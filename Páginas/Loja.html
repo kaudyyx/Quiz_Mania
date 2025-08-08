@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loja de Benefícios - Quiz Mania</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: white;
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: #6a11cb;
+            color: white;
+        }
+        
+        .diamond {
+            color: #6a11cb;
+            text-shadow: 0 0 5px rgba(106, 17, 203, 0.3);
+        }
+
+        main {
+            margin-top: 80px;
+            padding: 20px 0;
+        }
+        
+        .Loja-header {
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .Loja-header h1 {
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+        
+        .currency-display {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .currency-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .Loja-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .Loja-item {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .Loja-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .item-img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+        
+        .item-content {
+            padding: 15px;
+        }
+        
+        .item-price {
+            color: #6a11cb;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .buy-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background: #6a11cb;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-top: 15px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .buy-btn:hover {
+            background: #2575fc;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        
+        .cart-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1001;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .cart-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <a href="inicio.html" class="logo">
+                    <i class="fas fa-question-circle"></i> Quiz Mania
+                </a>
+                
+                <div style="display: flex; gap: 10px;">
+                    <a href="#" class="btn" style="background: #ffc107; color: #000;">
+                        <i class="fas fa-Loja"></i> Loja
+                    </a>
+                    <a href="login.html" class="btn" style="background: white; color: #6a11cb;">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </a>
+                    <button id="cart-btn" style="background: none; border: none; color: white; font-size: 20px; position: relative;">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span id="cart-count" style="position: absolute; top: -5px; right: -5px; background: red; color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 12px; display: flex; align-items: center; justify-content: center;">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <section class="Loja-header">
+                <h1><i class="fas fa-Loja"></i> Loja de Benefícios</h1>
+                <p>Melhore sua experiência no jogo com nossos itens exclusivos!</p>
+                
+                <div class="currency-display">
+                    <div class="currency-item">
+                        <i class="fas fa-coins" style="color: #ffc107; margin-right: 5px;"></i>
+                        <span id="user-coins">1,250</span>
+                    </div>
+                    <div class="currency-item">
+                        <i class="fas fa-gem diamond" style="margin-right: 5px;"></i>
+                        <span id="user-diamonds">85</span>
+                    </div>
+                </div>
+            </section>
+            
+            <div class="Loja-items">
+                <div class="Loja-item">
+                    <img src="https://thumbs.dreamstime.com/b/diamante-desenho-animado-pedra-preciosa-azul-brilhante-bijuteria-isolada-com-reflexo-leve-nas-bordas-espumante-facetado-mockup-de-213875198.jpg?w=768" alt="Boost de Diamante" class="item-img">
+                    <div class="item-content">
+                        <span class="badge" style="background: #e9dcf8; color: #6a11cb;">Boost</span>
+                        <h3>Boost de Diamante</h3>
+                        <p>Dobro de diamantes por 1 hora em todas as partidas jogadas.</p>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span class="item-price"><i class="fas fa-gem diamond"></i> 150</span>
+                            <button class="buy-btn" data-item="Boost de Diamante" data-price="150" data-currency="diamonds">
+                                <i class="fas fa-cart-plus"></i> Comprar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="Loja-item">
+                    <img src="https://inglesnoteclado.com.br/wp-content/uploads/2017/02/Como-Fazer-Perguntas-com-Used-to-Respostas.jpg" alt="Skip de Pergunta" class="item-img">
+                    <div class="item-content">
+                        <span class="badge" style="background: #d4edff; color: #1976d2;">Utilitário</span>
+                        <h3>Skip de Pergunta</h3>
+                        <p>Pule uma pergunta difícil e avance automaticamente para a próxima.</p>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span class="item-price"><i class="fas fa-coins" style="color: #ffc107;"></i> 300</span>
+                            <button class="buy-btn" data-item="Skip de Pergunta" data-price="300" data-currency="coins">
+                                <i class="fas fa-cart-plus"></i> Comprar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="Loja-item">
+                    <img src="https://images.steamusercontent.com/ugc/2503511900019005079/536B905480EF1688FEA61935D58D93C244AFA89C/?imw=637&imh=358&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true" alt="Multiplicador de XP" class="item-img">
+                    <div class="item-content">
+                        <span class="badge" style="background: #e9dcf8; color: #6a11cb;">Boost</span>
+                        <h3>Multiplicador de XP</h3>
+                        <p>Ganhe 2x XP por 2 horas para subir de nível mais rápido.</p>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span class="item-price"><i class="fas fa-coins" style="color: #ffc107;"></i> 200</span>
+                            <button class="buy-btn" data-item="Multiplicador de XP" data-price="200" data-currency="coins">
+                                <i class="fas fa-cart-plus"></i> Comprar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="Loja-item">
+                    <img src="https://scratchbrasil.org.br/wp-content/uploads/2021/04/Crie-avatares-e-personagens.png" alt="Avatar Exclusivo" class="item-img">
+                    <div class="item-content">
+                        <span class="badge" style="background: #ffebee; color: #f44336;">Cosmético</span>
+                        <h3>Avatar Exclusivo</h3>
+                        <p>Avatar especial para mostrar seu status no jogo. Edição limitada!</p>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span class="item-price"><i class="fas fa-gem diamond"></i> 500</span>
+                            <button class="buy-btn" data-item="Avatar Exclusivo" data-price="500" data-currency="diamonds">
+                                <i class="fas fa-cart-plus"></i> Comprar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <div id="cart-modal" class="cart-modal">
+        <div class="cart-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="font-size: 22px;"><i class="fas fa-shopping-cart"></i> Seu Carrinho</h2>
+                <button id="close-cart" style="background: none; border: none; font-size: 20px; cursor: pointer;">&times;</button>
+            </div>
+            
+            <div id="cart-items" style="margin-bottom: 20px;">
+                <p id="empty-cart" style="text-align: center; color: #666;">Seu carrinho está vazio</p>
+            </div>
+            
+            <div style="border-top: 1px solid #eee; padding-top: 15px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                    <strong>Total:</strong>
+                    <span id="cart-total">0</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                    <strong>Moeda:</strong>
+                    <span id="cart-currency">-</span>
+                </div>
+                
+                <div style="display: flex; gap: 10px;">
+                    <button id="clear-cart" style="flex: 1; padding: 10px; background: #f44336; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                        Limpar
+                    </button>
+                    <button id="checkout" style="flex: 1; padding: 10px; background: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                        Finalizar Compra
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="notification" class="notification">
+        <i class="fas fa-check-circle"></i> Item adicionado ao carrinho!
+    </div>
+
+    <script>
+        let cart = [];
+        let userCoins = 1250;
+        let userDiamonds = 85;
+        
+        const cartBtn = document.getElementById('cart-btn');
+        const cartModal = document.getElementById('cart-modal');
+        const closeCart = document.getElementById('close-cart');
+        const cartItems = document.getElementById('cart-items');
+        const emptyCart = document.getElementById('empty-cart');
+        const cartCount = document.getElementById('cart-count');
+        const cartTotal = document.getElementById('cart-total');
+        const cartCurrency = document.getElementById('cart-currency');
+        const clearCartBtn = document.getElementById('clear-cart');
+        const checkoutBtn = document.getElementById('checkout');
+        const notification = document.getElementById('notification');
+        const buyButtons = document.querySelectorAll('.buy-btn');
+        
+        function updateCart() {
+            cartCount.textContent = cart.length;
+            
+            if (cart.length === 0) {
+                emptyCart.style.display = 'block';
+                cartItems.innerHTML = '';
+                checkoutBtn.disabled = true;
+            } else {
+                emptyCart.style.display = 'none';
+                
+                let total = 0;
+                let currency = '';
+                
+                cartItems.innerHTML = '';
+ 
+                cart.forEach(item => {
+                    const itemElement = document.createElement('div');
+                    itemElement.style.display = 'flex';
+                    itemElement.style.justifyContent = 'space-between';
+                    itemElement.style.marginBottom = '10px';
+                    itemElement.style.paddingBottom = '10px';
+                    itemElement.style.borderBottom = '1px solid #eee';
+                    
+                    itemElement.innerHTML = `
+                        <div>
+                            <strong>${item.name}</strong>
+                            <div style="font-size: 14px; color: #666;">
+                                ${item.currency === 'coins' ? '<i class="fas fa-coins" style="color: #ffc107;"></i>' : '<i class="fas fa-gem" style="color: #6a11cb;"></i>'} 
+                                ${item.price}
+                            </div>
+                        </div>
+                        <button class="remove-item" data-id="${item.id}" style="background: none; border: none; color: #f44336; cursor: pointer;">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    `;
+                    
+                    cartItems.appendChild(itemElement);
+                    
+                    total += item.price;
+                    currency = item.currency;
+                });
+                
+                cartTotal.textContent = total;
+                cartCurrency.textContent = currency === 'coins' ? 'Moedas' : 'Diamantes';
+                checkoutBtn.disabled = false;
+                
+                document.querySelectorAll('.remove-item').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const itemId = this.getAttribute('data-id');
+                        removeFromCart(itemId);
+                    });
+                });
+            }
+        }
+        
+        function addToCart(item) {
+            cart.push({
+                id: Date.now().toString(),
+                name: item.name,
+                price: item.price,
+                currency: item.currency
+            });
+            
+            updateCart();
+            
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 2000);
+        }
+        
+        function removeFromCart(itemId) {
+            cart = cart.filter(item => item.id !== itemId);
+            updateCart();
+        }
+
+        function clearCart() {
+            cart = [];
+            updateCart();
+        }
+        
+        function checkout() {
+            if (cart.length === 0) return;
+            
+            const currency = cart[0].currency;
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            
+            if (currency === 'coins' && userCoins < total) {
+                alert('Você não tem moedas suficientes!');
+                return;
+            }
+            
+            if (currency === 'diamonds' && userDiamonds < total) {
+                alert('Você não tem diamantes suficientes!');
+                return;
+            }
+            
+            if (currency === 'coins') {
+                userCoins -= total;
+                document.getElementById('user-coins').textContent = userCoins.toLocaleString();
+            } else {
+                userDiamonds -= total;
+                document.getElementById('user-diamonds').textContent = userDiamonds;
+            }
+            
+            alert('Compra realizada com sucesso!');
+            
+            clearCart();
+            cartModal.style.display = 'none';
+        }
+        
+        cartBtn.addEventListener('click', () => {
+            cartModal.style.display = 'flex';
+        });
+        
+        closeCart.addEventListener('click', () => {
+            cartModal.style.display = 'none';
+        });
+        
+        clearCartBtn.addEventListener('click', clearCart);
+        
+        checkoutBtn.addEventListener('click', checkout);
+        
+        buyButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const item = {
+                    name: this.getAttribute('data-item'),
+                    price: parseInt(this.getAttribute('data-price')),
+                    currency: this.getAttribute('data-currency')
+                };
+                
+                addToCart(item);
+            });
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === cartModal) {
+                cartModal.style.display = 'none';
+            }
+        });
+        
+
+        updateCart();
+    </script>
+</body>
+</html>

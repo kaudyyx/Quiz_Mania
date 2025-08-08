@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Mania - Projeto de Estudante</title>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: white;
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .quiz-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .quiz-img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+        
+        .quiz-content {
+            padding: 15px;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: #6a11cb;
+            color: white;
+        }
+        
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -15px;
+        }
+        
+        .col {
+            flex: 1;
+            padding: 0 15px;
+            min-width: 250px;
+        }
+        
+        .diamond {
+            color: #6a11cb;
+            text-shadow: 0 0 5px rgba(106, 17, 203, 0.3);
+        }
+        
+        .quiz-card {
+            transform: scale(1);
+        }
+        
+        .quiz-card:hover {
+            transform: scale(1.05);
+            z-index: 10;
+        }
+        
+        .play-button {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            background: #6a11cb;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            transform: translateY(10px);
+            font-size: 14px;
+        }
+        
+        .quiz-card:hover .play-button {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        @keyframes btn-shine {
+            0% { box-shadow: 0 0 5px rgba(106, 17, 203, 0.3); }
+            50% { box-shadow: 0 0 15px rgba(106, 17, 203, 0.5); }
+            100% { box-shadow: 0 0 5px rgba(106, 17, 203, 0.3); }
+        }
+        
+        .play-button:hover {
+            animation: btn-shine 1s infinite;
+            background: #2575fc;
+        }
+    </style>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <a href="#" class="logo">
+                    <i class="fas fa-question-circle"></i> Quiz Mania
+                </a>
+                
+                <div style="display: flex; gap: 10px;">
+                    <a href="Loja.html" class="btn" style="background: #ffc107; color: #000;">
+                        <i class="fas fa-store"></i> Loja
+                    </a>
+                    <a href="login.html" class="btn" style="background: white; color: #6a11cb;">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main style="margin-top: 80px; padding: 20px 0;">
+        <div class="container">
+            <section style="background: linear-gradient(to right, #6a11cb, #2575fc); color: white; padding: 30px; border-radius: 10px; margin-bottom: 30px;">
+                <div style="display: flex; flex-wrap: wrap; align-items: center;">
+                    <div style="flex: 1; min-width: 300px; margin-bottom: 20px;">
+                        <h1 style="font-size: 28px; margin-bottom: 15px;">Teste seus conhecimentos!</h1>
+                        <p style="font-size: 18px; margin-bottom: 20px;">Responda quizzes e ganhe recompensas</p>
+                        <div style="display: flex; gap: 10px;">
+                            <a href="#" class="btn" style="background: white; color: #6a11cb;">
+                                <i class="fas fa-play"></i> Começar
+                            </a>
+                            <a href="#" class="btn" style="border: 2px solid white; color: white; background: transparent;">
+                                <i class="fas fa-trophy"></i> Ranking
+                            </a>
+                        </div>
+                    </div>
+                    <div style="flex: 1; min-width: 300px; text-align: center; position: relative;">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3281/3281289.png" alt="Quiz" style="max-width: 200px;">
+                        <div style="position: absolute; bottom: 0; right: 0; background: #ffc107; color: #000; padding: 5px 10px; border-radius: 20px; font-size: 14px;">
+                            <i class="fas fa-gem diamond"></i> 50x diamantes hoje!
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section style="margin-bottom: 30px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2 style="font-size: 22px;">
+                        <i class="fas fa-fire" style="color: #ff5722;"></i> Quizzes populares
+                    </h2>
+                    <a href="#" style="color: #6a11cb; font-weight: bold;">Ver todos <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="row">
+                    <div class="col">
+                        <div class="quiz-card">
+                            <div class="quiz-content">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                    <span class="badge" style="background: #e9dcf8; color: #6a11cb;">Segurança</span>
+                                    <span style="color: #ffc107;">
+                                        <i class="fas fa-star"></i> 4.8
+                                    </span>
+                                </div>
+                                <h3 style="font-size: 18px; margin-bottom: 10px;">Segurança Cibernética</h3>
+                                <p style="color: #666; font-size: 14px; margin-bottom: 15px;">Teste seus conhecimentos sobre proteção online</p>
+                                
+                                <div style="font-size: 14px;">
+                                    <div style="color: #666; margin-bottom: 5px;">
+                                        <i class="fas fa-question-circle"></i> 7 perguntas
+                                    </div>
+                                    <div style="color: #666; margin-bottom: 5px;">
+                                        <i class="fas fa-clock"></i> ~5 minutos
+                                    </div>
+                                    <div style="color: #6a11cb; font-weight: bold;">
+                                        <i class="fas fa-gem diamond"></i> 35 diamantes
+                                    </div>
+                                </div>
+                                <a href="Quiz_crime_cibernetico.html" class="play-button">
+                                    <i class="fas fa-play"></i> Jogar agora
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col">
+                        <div class="quiz-card">
+                            <div class="quiz-content">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                    <span class="badge" style="background: #d4edff; color: #1976d2;">Ciência</span>
+                                    <span style="color: #ffc107;">
+                                        <i class="fas fa-star"></i> 4.5
+                                    </span>
+                                </div>
+                                <h3 style="font-size: 18px; margin-bottom: 10px;">Exploração Espacial</h3>
+                                <p style="color: #666; font-size: 14px; margin-bottom: 15px;">Viaje pelo espaço com essas perguntas</p>
+                                
+                                <div style="font-size: 14px;">
+                                    <div style="color: #666; margin-bottom: 5px;">
+                                        <i class="fas fa-question-circle"></i> 15 perguntas
+                                    </div>
+                                    <div style="color: #666; margin-bottom: 5px;">
+                                        <i class="fas fa-clock"></i> ~8 minutos
+                                    </div>
+                                    <div style="color: #6a11cb; font-weight: bold;">
+                                        <i class="fas fa-gem diamond"></i> 75 diamantes
+                                    </div>
+                                </div>
+                                <a href="#" class="play-button">
+                                    <i class="fas fa-play"></i> Jogar agora
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        console.log("Animação dos cards adicionada!");
+        
+    </script>
+</body>
+</html>
